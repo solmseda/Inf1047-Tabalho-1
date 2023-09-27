@@ -11,6 +11,7 @@
     <div id="content">
         {% if user.is_authenticated %}
             <a href="{% url 'blog:criar_postagem' %}">Criar Postagem</a> |
+            Logado como {{ user.get_username }} |
             Sair
         {% else %}
             <a href="{% url 'login' %}">Entrar</a> |
