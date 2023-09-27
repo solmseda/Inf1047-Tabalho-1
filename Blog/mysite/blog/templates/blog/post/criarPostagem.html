@@ -1,0 +1,16 @@
+{% extends "blog/post/base.html" %}
+
+{% block title %}Criar Postagem{% endblock %}
+
+{% block content %}
+    <h1>Criar Postagem</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="titulo">Título:</label><br>
+        <input type="text" id="titulo" name="titulo" required><br><br>
+        <label for="corpo">Corpo da Postagem:</label><br>
+        <textarea id="corpo" name="corpo" rows="4" required></textarea><br><br>
+        <button type="submit">Confirmar</button>
+        <a href="{% url 'blog:post_lista' %}">Voltar</a>
+    </form>
+{% endblock %}

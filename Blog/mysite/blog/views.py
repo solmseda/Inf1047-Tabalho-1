@@ -4,6 +4,8 @@ from django.contrib.auth import login, authenticate, logout
 from .forms import LoginForm, RegisterForm
 from .models import Post
 from django.http import Http404
+from .models import Post
+from .forms import PostForm
 
 def home(request):
     return render(request, 'base.html')
@@ -50,7 +52,24 @@ def post_lista(request):
     return render(request, 'blog/post/lista.html', {'posts': posts})
 
 def post_detalhes(request, id):
-    status = Post.Status.PUBLISHED
-    post = get_object_or_404(Post, id=id, status=status)
+    post = get_object_or_404(Post, id=id, status=Post.Status.PUBLISHED)
 
-    return render(request, 'blog/post/detalhes.html', {'posts': posts})
+    return render(request, 'blog/post/detalhes.html', {'posts': post})
+
+def criar_postagem(request):
+    if request.method == 'POST':
+        # Processar os dados do formulário POST
+        form = PostForm(request.POST)
+        if form.is_valid():
+            # Criar uma nova postagem com os dados do formulário
+            nova_postagem = form.save(commit=False)
+            nova_postagem.autor = request.user  # Supondo que o autor seja o usuário logado
+            nova_postagem.status = Post.Status.PUBLISHED  # Definir o status como publicado, se desejado
+            nova_postagem.save()
+            return redirect('blog/post/detalhes.html', post_id=nova_postagem.id)  # Redirecionar para a página de detalhes da postagem
+
+    else:
+        # Se o método não for POST, renderize o formulário vazio
+        form = PostForm()
+
+    return render(request, 'blog/post/criarPostagem.html', {'form': form})
