@@ -19,6 +19,7 @@ from django.urls import path, include
 from blog import views
 
 urlpatterns = [
+    path('', views.post_lista, name='post_lista'),
     path('admin/', admin.site.urls),
     path('blog/', include('blog.urls', namespace='blog')),
     path('register/', views.sign_up, name='register'),
