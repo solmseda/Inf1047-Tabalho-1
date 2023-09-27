@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from .forms import LoginForm, RegisterForm
+from .models import Post
+from django.http import Http404
 
 def home(request):
     return render(request, 'base.html')
@@ -42,3 +44,13 @@ def sign_in(request):
         # form is not valid or user is not authenticated
         messages.error(request,f'Invalid username or password')
         return render(request,'login.html',{'form': form})
+
+def post_lista(request):
+    posts = Post.published.all()
+    return render(request, 'blog/post/lista.html', {'posts': posts})
+
+def post_detalhes(request, id):
+    status = Post.Status.PUBLISHED
+    post = get_object_or_404(Post, id=id, status=status)
+
+    return render(request, 'blog/post/detalhes.html', {'posts': posts})

@@ -1,0 +1,18 @@
+{% extends "blog/post/base.html" %}
+
+{% block title %}Meu Blog{% endblock %}
+
+{% block content %}
+    <h1>Postagens</h1>
+    {% for post in posts %}
+    <h2>
+        <a href="{% url 'blog:post_detalhes' post.id %}">
+            {{ post.titulo }}
+        </a>
+    </h2>
+    <p>
+        Publicado em {{ post.dt_publicado }} por {{ post.autor }}
+    </p>
+    {{ post.corpo|truncatewords:30|linebreaks }}
+    {% endfor %}
+{% endblock %}
