@@ -24,5 +24,6 @@ urlpatterns = [
     path('blog/', include('blog.urls', namespace='blog')),
     path('register/', views.sign_up, name='register'),
     path('login/', views.sign_in, name='login'),
-    path('base/', views.home, name='home')
+    path('base/', views.home, name='home'),
+    path('logout/', views.logout_view, name='logout')
 ]

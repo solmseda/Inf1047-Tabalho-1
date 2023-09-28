@@ -23,7 +23,7 @@ def sign_up(request):
             user.save()
             messages.success(request, 'You have singed up successfully.')
             login(request, user)
-            return redirect('posts')
+            return redirect('/blog/')
         else:
             return render(request, 'register.html', {'form': form})
         
@@ -41,11 +41,15 @@ def sign_in(request):
             if user:
                 login(request, user)
                 messages.success(request,f'Hi {username.title()}, welcome back!')
-                return redirect('home')
+                return redirect('/blog/')
         
         # form is not valid or user is not authenticated
         messages.error(request,f'Invalid username or password')
         return render(request,'login.html',{'form': form})
+    
+def logout_view(request):
+    logout(request)
+    return redirect('/blog/')
 
 def post_lista(request):
     posts = Post.published.all()
