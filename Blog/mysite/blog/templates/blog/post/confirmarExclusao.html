@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação de Exclusão</title>
+</head>
+<body>
+    <div id="content">
+        <h1>Confirmação de Exclusão</h1>
+        <p>Você têm certeza de que deseja excluir esta postagem?</p>
+        <form method="post" action="{% url 'blog:deletar_postagem' post.id %}">
+            {% csrf_token %}
+            <button type="submit">Sim</button>
+        </form>
+        <a href="{% url 'blog:detalhes_postagem' post.id %}">Não</a>
+    </div>
+</body>
+</html>

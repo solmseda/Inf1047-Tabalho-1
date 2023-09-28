@@ -51,10 +51,10 @@ def post_lista(request):
     posts = Post.published.all()
     return render(request, 'blog/post/lista.html', {'posts': posts})
 
-def post_detalhes(request, id):
+def detalhes_postagem(request, id):
     post = get_object_or_404(Post, id=id, status=Post.Status.PUBLISHED)
 
-    return render(request, 'blog/post/detalhes.html', {'posts': post})
+    return render(request, 'blog/post/detalhes.html', {'post': post})
 
 def criar_postagem(request):
     if request.method == 'POST':
@@ -63,13 +63,42 @@ def criar_postagem(request):
         if form.is_valid():
             # Criar uma nova postagem com os dados do formulário
             nova_postagem = form.save(commit=False)
-            nova_postagem.autor = request.user  # Supondo que o autor seja o usuário logado
-            nova_postagem.status = Post.Status.PUBLISHED  # Definir o status como publicado, se desejado
+            nova_postagem.autor = request.user
+            nova_postagem.status = Post.Status.PUBLISHED
             nova_postagem.save()
-            return redirect('blog/post/detalhes.html', post_id=nova_postagem.id)  # Redirecionar para a página de detalhes da postagem
-
+            return redirect('blog/post/detalhes.html', post_id=nova_postagem.id)
     else:
         # Se o método não for POST, renderize o formulário vazio
         form = PostForm()
 
     return render(request, 'blog/post/criarPostagem.html', {'form': form})
+
+def editar_postagem(request, id, update=False):
+    post = get_object_or_404(Post, id=id)
+
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            if update:
+                post.dt_atualizado = timezone.now()  # Atualize a data de edição
+            post.save()
+            return redirect('blog:detalhes_postagem', id=post.id)
+    else:
+        form = PostForm(instance=post)
+
+    return render(request, 'blog/post/editarPostagem.html', {'form': form})
+
+
+def confirmar_exclusao(request, id):
+    post = get_object_or_404(Post, id=id)
+    return render(request, 'blog/post/confirmarExclusao.html', {'post': post})
+
+def deletar_postagem(request, id):
+    post = get_object_or_404(Post, id=id)
+    
+    # Verificar se o usuário é o autor da postagem antes de permitir a exclusão
+    if request.user == post.autor:
+        post.delete()
+    
+    return redirect('blog:lista_postagens')

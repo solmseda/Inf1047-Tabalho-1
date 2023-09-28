@@ -1,11 +1,26 @@
 {% extends "blog/post/base.html" %}
 
-{% block title %}{{ post.titulo }}{% endblock %}
+{% block title %}Detalhes da Postagem{% endblock %}
 
 {% block content %}
     <h1>{{ post.titulo }}</h1>
-    <p class="date">
-        Publicado em {{ post.dt_publicado }} por {{ post.autor }}
-    </p>
+    
+    {% if post.dt_publicado == post.dt_atualizado %}
+        <p>Publicado em {{ post.dt_publicado }} por {{ post.autor }}</p>
+    {% else %}
+        <p>Publicado em {{ post.dt_publicado }} e atualizado em {{ post.dt_atualizado }} por {{ post.autor }}</p>
+    {% endif %}
+    
     {{ post.corpo|linebreaks }}
+    
+    
+    
+    {% if user == post.autor %}
+        <p>
+            <a href="{% url 'blog:editar_postagem' post.id %}">Editar Postagem</a> |
+            <a href="{% url 'blog:confirmar_exclusao' post.id %}" class="delete-link">Deletar Postagem</a> |
+        </p>
+    {% endif %}
+    
+    <a href="{% url 'blog:lista_postagens' %}">Voltar para a lista de postagens</a>
 {% endblock %}
