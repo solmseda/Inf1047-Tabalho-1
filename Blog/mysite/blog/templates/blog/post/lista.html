@@ -12,10 +12,10 @@
                     {{ post.titulo }}
                 </a>
             </h2>
-            <p>
-                Publicado em {{ post.dt_publicado }} por {{ post.autor }}
-            </p>
             {{ post.corpo|truncatewords:30|linebreaks }}
+            <i>
+                Publicado em {{ post.dt_publicado }} por {{ post.autor }}
+            </i>
         </div>
         {% endfor %}
     </div>

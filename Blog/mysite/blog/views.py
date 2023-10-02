@@ -62,37 +62,32 @@ def detalhes_postagem(request, id):
 
 def criar_postagem(request):
     if request.method == 'POST':
-        # Processar os dados do formulário POST
         form = PostForm(request.POST)
         if form.is_valid():
-            # Criar uma nova postagem com os dados do formulário
             nova_postagem = form.save(commit=False)
             nova_postagem.autor = request.user
             nova_postagem.status = Post.Status.PUBLISHED
             nova_postagem.save()
             return redirect('blog/post/detalhes.html', post_id=nova_postagem.id)
     else:
-        # Se o método não for POST, renderize o formulário vazio
         form = PostForm()
 
     return render(request, 'blog/post/criarPostagem.html', {'form': form})
 
-def editar_postagem(request, id, update=False):
+def editar_postagem(request, id):
     post = get_object_or_404(Post, id=id)
 
     if request.method == 'POST':
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
-            if update:
-                post.dt_atualizado = timezone.now()  # Atualize a data de edição
+            post.dt_atualizado = timezone.now()  # Atualize a data de edição
             post.save()
             return redirect('blog:detalhes_postagem', id=post.id)
     else:
         form = PostForm(instance=post)
 
-    return render(request, 'blog/post/editarPostagem.html', {'form': form})
-
+    return render(request, 'blog/post/editarPostagem.html', {'form': form, 'post': post})
 
 def confirmar_exclusao(request, id):
     post = get_object_or_404(Post, id=id)

@@ -8,7 +8,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Salvar</button>
-        <a href="{% url 'blog:detalhes_postagem' post.id %}" class="back-button">Voltar</a>
+        <a href="{% url 'blog:detalhes_postagem' post.id %}">Voltar</a>
     </form>
 {% endblock %}
 

@@ -5,15 +5,13 @@
 {% block content %}
     <h1>{{ post.titulo }}</h1>
     
-    {% if post.dt_publicado == post.dt_atualizado %}
-        <p>Publicado em {{ post.dt_publicado }} por {{ post.autor }}</p>
-    {% else %}
-        <p>Publicado em {{ post.dt_publicado }} e atualizado em {{ post.dt_atualizado }} por {{ post.autor }}</p>
-    {% endif %}
-    
     {{ post.corpo|linebreaks }}
     
-    
+    {% if post.dt_publicado == post.dt_atualizado %}
+        <i>Publicado em {{ post.dt_publicado }} por {{ post.autor }}</i>
+    {% else %}
+        <i>Publicado em {{ post.dt_publicado }} e atualizado em {{ post.dt_atualizado }} por {{ post.autor }}</i>
+    {% endif %}
     
     {% if user == post.autor %}
         <p>
@@ -22,5 +20,7 @@
         </p>
     {% endif %}
     
-    <a href="{% url 'blog:lista_postagens' %}">Voltar para a lista de postagens</a>
+    <p>
+        <a href="{% url 'blog:lista_postagens' %}">Voltar para a lista de postagens</a>
+    </p>
 {% endblock %}
