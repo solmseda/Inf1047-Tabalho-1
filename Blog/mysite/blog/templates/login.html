@@ -1,10 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Login</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Log In</button>
-</form>
-{% endblock content%}
+<style>
+  .center-form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column; /* Add this line to stack elements vertically */
+      height: 100vh;
+      text-align: center;
+  }
+</style>
+<div class="center-form">
+  <h2>Login</h2>
+  <br>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Log In</button>
+  </form>
+</div>
+{% endblock content %}

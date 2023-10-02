@@ -23,3 +23,11 @@
 .back-button:hover {
     background-color: #aaa;
 }
+
+.center-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* This ensures the form takes the full height of the viewport */
+  }
+  
