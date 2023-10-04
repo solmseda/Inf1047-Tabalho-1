@@ -1,22 +1,43 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form method="POST" novalidate>
-	{% csrf_token %}
-	<h2>Sign Up</h2>
-		
-	{% for field in form %}
-	<p>
-		{% if field.errors %}
-		<ul class="errorlist">
-			{% for error in field.errors %}
-			<li>{{ error }}</li>
-			{% endfor %}
-		</ul>
-		{% endif %}
-	 	{{ field.label_tag }} {{ field }}
-	</p>
-	{% endfor %}
-	<input type="submit" value="Register" />
-</form>
-{% endblock content%}
+<style>
+  .center-form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      text-align: center;
+  }
+
+  .form-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px; 
+  }
+
+  .form-group label {
+      width: 100px;
+      text-align: left;
+      margin-right: 10px;
+  }
+
+  .form-group input {
+      flex: 1;
+  }
+</style>
+<div class="center-form">
+  <h2>Sign Up</h2>
+  <form method="POST" novalidate>
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+        {{ field }}
+      </div>
+    {% endfor %}
+    <input type="submit" value="Register" />
+  </form>
+</div>
+{% endblock content %}
