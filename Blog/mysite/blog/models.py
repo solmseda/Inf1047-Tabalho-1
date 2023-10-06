@@ -19,7 +19,7 @@ class Post(models.Model):
     corpo = models.TextField()
     dt_publicado = models.DateTimeField(default=timezone.now)
     dt_criado = models.DateTimeField(auto_now_add=True)
-    dt_atualizado = models.DateTimeField(auto_now=False)
+    dt_atualizado = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT)
     editado = False
 
