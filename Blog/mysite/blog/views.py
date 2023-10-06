@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
+from django.utils import timezone
 from .forms import LoginForm, RegisterForm
 from .models import Post
-from django.http import Http404
 from .models import Post
 from .forms import PostForm
 
@@ -68,7 +68,7 @@ def criar_postagem(request):
             nova_postagem.autor = request.user
             nova_postagem.status = Post.Status.PUBLISHED
             nova_postagem.save()
-            return redirect('blog/post/detalhes.html', post_id=nova_postagem.id)
+            return redirect('blog:lista_postagens')
     else:
         form = PostForm()
 
@@ -81,7 +81,8 @@ def editar_postagem(request, id):
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
-            post.dt_atualizado = timezone.now()  # Atualize a data de edição
+            post.dt_atualizado = timezone.now()
+            post.editado = True
             post.save()
             return redirect('blog:detalhes_postagem', id=post.id)
     else:

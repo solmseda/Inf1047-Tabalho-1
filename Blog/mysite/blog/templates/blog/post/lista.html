@@ -13,10 +13,11 @@
                 </a>
             </h2>
             {{ post.corpo|truncatewords:30|linebreaks }}
-            <i>
-                Publicado em {{ post.dt_publicado }} por {{ post.autor }}
-            </i>
-        </div>
+            {% if post.editado == False %}
+                <i>Publicado em {{ post.dt_publicado }} por {{ post.autor }}</i>
+            {% else %}
+                <i>Criado em {{ post.dt_publicado }} e Atualizado em {{ post.dt_atualizado }} por {{ post.autor }}</i>
+            {% endif %}
         {% endfor %}
     </div>
 {% endblock %}

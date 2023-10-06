@@ -7,10 +7,10 @@
     
     {{ post.corpo|linebreaks }}
     
-    {% if post.dt_publicado == post.dt_atualizado %}
+    {% if post.editado == False %}
         <i>Publicado em {{ post.dt_publicado }} por {{ post.autor }}</i>
     {% else %}
-        <i>Publicado em {{ post.dt_publicado }} e atualizado em {{ post.dt_atualizado }} por {{ post.autor }}</i>
+        <i>Atualizado em {{ post.dt_atualizado }} por {{ post.autor }}</i>
     {% endif %}
     
     {% if user == post.autor %}
