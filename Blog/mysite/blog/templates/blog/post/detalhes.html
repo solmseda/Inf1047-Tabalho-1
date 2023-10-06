@@ -3,6 +3,7 @@
 {% block title %}Detalhes da Postagem{% endblock %}
 
 {% block content %}
+<div class="post-container">
     <h1>{{ post.titulo }}</h1>
     
     {{ post.corpo|linebreaks }}
@@ -23,4 +24,6 @@
     <p>
         <a href="{% url 'blog:lista_postagens' %}">Voltar para a lista de postagens</a>
     </p>
+</div>
 {% endblock %}
+
